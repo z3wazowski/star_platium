@@ -1,0 +1,9 @@
+# System
+.DS_Store
+
+# Claude Code
+.claude/
+.codex/
+CLAUDE.md
+AGENTS.md
+.codex.project.json
