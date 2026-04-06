@@ -101,13 +101,15 @@
   .site-header {
     position: sticky; top: 0; z-index: 20; padding-top: 0.75rem;
   }
-  .site-header__inner {
+.site-header__inner {
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: 1.5rem; align-items: center;
     padding: 0.9rem 1.25rem;
     background: rgba(245, 248, 252, 0.92);
     border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    width: 100%;
+    max-width: 100%;
   }
   .site-progress {
     position: absolute; inset-inline: 0; top: 0; height: 2px; overflow: clip;
