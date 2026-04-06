@@ -99,12 +99,70 @@ function mountForm() {
       return;
     }
 
-    form.reset();
-    fields.forEach((field) => setFieldState(field, ""));
+    // フォームの値を取得
+const inquiryTypeMap = {
+  "internet":       "インターネットの設置",
+  "boot-controller":"Boot-controller",
+  "iot":            "IoT機器の設置・設定",
+  "other":          "その他",
+};
 
-    if (typeof HTMLDialogElement !== "undefined" && dialog instanceof HTMLDialogElement) {
-      dialog.showModal();
-    }
+const buildingTypeMap = {
+  "new-build":   "新築",
+  "renovation":  "既存物件の改修",
+  "portfolio":   "複数棟管理",
+};
+
+const companyVal  = form.querySelector("#company")?.value.trim() ?? "";
+const emailVal    = form.querySelector("#email")?.value.trim() ?? "";
+const buildingVal = form.querySelector("#building-type")?.value ?? "";
+const inquiryVal  = form.querySelector("#inquiry-type")?.value ?? "";
+const unitsVal    = form.querySelector("#units")?.value.trim() ?? "";
+const messageVal  = form.querySelector("#message")?.value.trim() ?? "";
+
+const submitBtn = form.querySelector("[type='submit']");
+if (submitBtn) {
+  submitBtn.disabled = true;
+  submitBtn.textContent = "送信中...";
+}
+
+fetch("https://chatwork.cvr-world.com/api/contact-inquiries", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    form_type:            1,
+    last_name:            companyVal, // 姓名がないので会社名を代用
+    first_name:           "",
+    email:                emailVal,
+    company_name:         companyVal,
+    phone_number:         null,
+    property_type:        buildingTypeMap[buildingVal] ?? buildingVal,
+    unit_count_estimate:  unitsVal || null,
+    inquiry_items:        [inquiryTypeMap[inquiryVal] ?? inquiryVal],
+    message:              messageVal,
+  }),
+})
+.then((res) => {
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return res.json();
+})
+.then(() => {
+  form.reset();
+  fields.forEach((field) => setFieldState(field, ""));
+  if (typeof HTMLDialogElement !== "undefined" && dialog instanceof HTMLDialogElement) {
+    dialog.showModal();
+  }
+})
+.catch((err) => {
+  console.error("送信エラー:", err);
+  alert("送信に失敗しました。時間をおいて再度お試しください。");
+})
+.finally(() => {
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "無料相談を送信";
+  }
+});
   });
 
   closeButton?.addEventListener("click", () => {
