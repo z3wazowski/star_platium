@@ -502,6 +502,15 @@
     display: grid; gap: 1rem; padding: 2.5rem;
     background: white;
   }
+ /* Footer company info */
+.footer-label {
+  display: inline-block;
+  min-width: 5em;
+}
+
+.footer-address-indent {
+  padding-left: 5em;
+}
 
   /* ── Reveal animation ── */
   [data-reveal] {
