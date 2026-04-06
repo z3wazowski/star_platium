@@ -130,7 +130,7 @@ fetch("https://chatwork.cvr-world.com/api/contact-inquiries", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
-    form_type:            1,
+    form_type:            3,
     last_name:            companyVal, // 姓名がないので会社名を代用
     first_name:           "",
     email:                emailVal,
