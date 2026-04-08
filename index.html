@@ -406,7 +406,16 @@
           </div>
 
           <div class="contact-form__footer">
-            <p>送信により、<a href="/privacy-policy" target="_blank" rel="noopener">プライバシーポリシー</a>に同意したものとみなします。1営業日以内にご連絡します。</p>
+            <div class="field field--agree">
+              <label class="agree-label">
+                <input type="checkbox" id="agree-check" required>
+                <span class="agree-text">
+                  <a href="/privacy-policy" target="_blank" rel="noopener">プライバシーポリシー</a>に同意する <span aria-hidden="true">*</span>
+                </span>
+              </label>
+              <p class="field__message" id="agreeError" style="display:none;">送信には利用規約への同意が必要です</p>
+            </div>
+            <p>1営業日以内にご連絡します。</p>
             <button class="button button--primary" type="submit">無料相談を送信</button>
           </div>
         </form>
@@ -445,6 +454,81 @@
       <button class="button button--primary" type="button" data-close-dialog>閉じる</button>
     </div>
   </dialog>
+
+  <style>
+    /* 利用規約同意チェック */
+    .field--agree {
+      margin-bottom: 1rem;
+    }
+    .agree-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .agree-label:hover {
+      border-color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.03);
+    }
+    .agree-label input[type=checkbox] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .agree-text {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.8);
+    }
+    .agree-text a {
+      color: var(--color-accent, #6d9eff);
+      text-decoration: underline;
+    }
+    .agree-text a:hover {
+      opacity: 0.7;
+    }
+    #agreeError {
+      color: #ff6b6b;
+      font-size: 0.8rem;
+      margin-top: 6px;
+      padding-left: 16px;
+    }
+  </style>
+
+  <script>
+    // 同意チェックボックスのバリデーション
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.querySelector('[data-contact-form]');
+      if (!form) return;
+
+      form.addEventListener('submit', function(e) {
+        var agreeCheck = document.getElementById('agree-check');
+        var agreeError = document.getElementById('agreeError');
+        if (agreeCheck && !agreeCheck.checked) {
+          e.preventDefault();
+          agreeError.style.display = 'block';
+          agreeCheck.closest('.field--agree').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return false;
+        }
+        if (agreeError) agreeError.style.display = 'none';
+      });
+
+      // チェック時にエラーを消す
+      var agreeCheck = document.getElementById('agree-check');
+      if (agreeCheck) {
+        agreeCheck.addEventListener('change', function() {
+          var agreeError = document.getElementById('agreeError');
+          if (agreeCheck.checked && agreeError) {
+            agreeError.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
 
   <script type="module" src="./assets/scripts/main.js"></script>
 </body>
