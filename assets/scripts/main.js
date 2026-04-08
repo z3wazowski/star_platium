@@ -126,7 +126,7 @@ if (submitBtn) {
   submitBtn.textContent = "送信中...";
 }
 
-fetch("https://chatwork.cvr-world.com/api/contact-inquiries", {
+fetch("http://13.193.182.163:5000/api/contact-inquiries", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
