@@ -126,7 +126,7 @@ if (submitBtn) {
   submitBtn.textContent = "送信中...";
 }
 
-fetch("http://13.193.182.163:5000/api/contact-inquiries", {
+fetch("https://test.cvr-world.com/api/contact-inquiries", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
